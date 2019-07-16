@@ -5,8 +5,9 @@ To determine the influence of motif activity on gene expression, we compare usua
 # Technical details
     - code is written for python2.7
     - entire analysis can be run via command line with bash scripts
+    - conda environment provided
 
-# CONDA-environment	
+## CONDA-environment	
 You can create a conda environment with the provided YAML file:
 ```bash
 conda env create --name NAME --file cmapPy_conda.yml
