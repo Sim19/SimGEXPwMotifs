@@ -13,11 +13,11 @@ conda env create --name NAME --file cmapPy_conda.yml
 ```
 you can then use the environment with 
 ```bash 
-conda activate NAME
+source activate NAME
 ```
 and when you're done using it, 
 ```bash 
-conda deactivate NAME
+source deactivate NAME
 ```
 For more information, please go to 	[conda project](https://docs.conda.io/projects/conda/en/latest/user-guide/index.html).
 	
