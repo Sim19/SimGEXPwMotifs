@@ -130,3 +130,74 @@ github.com/vanheeringen-lab/gimmemotifs}
 		-i $INIT -p $PERTURB -n $NUM 
 ```
 
+
+### Exemplary use of how to use data
+The generated data is stored as a cPickle-object. Those objects are generally loaded by
+```python
+import cPickle as pickle
+import pandas as pd
+
+with open(FILENAME, 'rb') as f:
+    df = pickle.load(f)
+```
+
+The data itself is stored in a Ybetaparams class, with slots for 
+-Y		the gene expression data (pandas dataframe)
+-beta 		the motif influential weights (pandas dataframe)
+-params		parameter set that was used to generate data (class params_dict)
+
+To access and use data further, I suggest the following:
+```python
+### load packages
+import Ybetaparam as Ybp
+import cPickle as pickle
+
+### FILENAMES
+FILE_PATH = "data/simulation/"
+'''#exemplary file name with 
+-"C_4":		4 conditions/samples, 
+-"G_978":	978 genes, 
+-"TF_623":	623 motifs, 
+-"V_lowrank_2":	assumend correlation between conditions a lowrank matrix of rank 2, 
+-"rep_2":	2 repititions, 
+-"Sigma_random":	a random noise matrix Sigma, 
+-"R2method_mean_V_mean_M":	initialization strategy to control for the fraction in signal between motif influence and noise, and 
+-"frac_20":	20% of the signal being explained by the motifs, the rest being noise
+'''
+FILE_NAME = "Ybetaparams_generated_C_4_G_978_TF_623_V_lowrank_2_rep_2_Sigma_random_R2method_mean_V_mean_M_frac_20.pkl"
+
+# load Ybp object
+with open(FILE_PATH + FILE_NAME, 'rb') as f:
+    Ybp = pickle.load(f)
+
+# repetitions are stored in columns
+Y = Ybp.Y
+
+### get parameters used for data generation
+beta = Ybp.beta
+params = Ybp.parameter
+
+# motifs
+motif = params.motif
+
+# covariance structure used to generate data
+covarV = params["V"]
+
+
+# information about shape of data
+Genes = params["G"]
+Cond = params["C"]
+
+### reshape Y
+## get ith repetition of Y back into shape:
+# set i
+i = 0
+# subset Y and reshape
+Y_i = Y.iloc[:,i].reshape(Genes, Cond, order='F')
+
+
+
+
+#### Your analysis comes here
+.....
+``` 
