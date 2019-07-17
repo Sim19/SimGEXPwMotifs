@@ -84,7 +84,7 @@ def read_file(file_name, sep='\t', lineterminator='\n', header=1,
 
 
 # get motifs aligned with genes
-def align_motif_w_genes(motif_file, cond_file):
+def align_motif_w_genes(motif_file, conds):
 	TSS_NCBI = motif_file[motif_file.columns[0]]
 	N = TSS_NCBI.shape[0]
 	ncbi_id = np.zeros(N)
@@ -93,7 +93,7 @@ def align_motif_w_genes(motif_file, cond_file):
 	for idx in range(0, N):
 		ncbi_id[idx] = TSS_NCBI[idx].split(' ')[1]
 		idx_swap[idx] = np.where(
-				cond_file.row_metadata_df.index == ncbi_id[idx]
+				conds == ncbi_id[idx]
 				)[-1]
 
 	motif_file[motif_file.columns[0]] = np.int_(ncbi_id)
@@ -125,9 +125,9 @@ def main(motif_file, cond_file):
 	# genes = read_file(file_name=gene_file, header=-1)
 
 	# Read gene-condition matrix (from LINCS)
-	conds = parse(cond_file)
+	conds = np.load(cond_file)
 	
-	motifIndexed = align_motif_w_genes(motif_file=motif, cond_file=conds)
+	motifIndexed = align_motif_w_genes(motif_file=motif, conds=conds)
 	
 	return motifIndexed
 	

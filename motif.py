@@ -30,7 +30,7 @@ def getMotif(Genes=None):
 	# load necessary files
 	if Genes is None or Genes == 978:
 		motiffile = cwd + '/data/l1000/motif_lincs_400_100.txt'
-		condfile = cwd + '/data/l1000/mcf7_landmark_level5.gctx'
+		condfile = cwd + '/data/l1000/metadata.npy'
 		# applt. script to get motif into right format
 		motif = pm.main(motif_file=motiffile, cond_file=condfile)
 	else:
